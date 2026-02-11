@@ -4,9 +4,33 @@ const API_BASE_URL = 'http://localhost:8000/api/leaderboard';
 
 const api = axios.create({
     baseURL: API_BASE_URL,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },
+});
+
+const getCsrfToken = () => {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, 10) === ('csrftoken=')) {
+                cookieValue = decodeURIComponent(cookie.substring(10));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+};
+
+api.interceptors.request.use(config => {
+    const token = getCsrfToken();
+    if (token) {
+        config.headers['X-CSRFToken'] = token;
+    }
+    return config;
 });
 
 export const submitScore = async (userId, score) => {
