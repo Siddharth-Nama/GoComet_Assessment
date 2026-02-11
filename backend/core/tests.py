@@ -1,6 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
 from .models import User, GameSession, Leaderboard
 from django.db.utils import IntegrityError
+from rest_framework import status
 
 class ModelTests(TestCase):
     def test_user_creation(self):
@@ -24,3 +26,38 @@ class ModelTests(TestCase):
         User.objects.create(username="unique")
         with self.assertRaises(IntegrityError):
             User.objects.create(username="unique")
+
+class ViewTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create(username="player1")
+
+    def test_submit_score(self):
+        url = reverse('submit-score')
+        data = {'user_id': self.user.id, 'score': 150}
+        response = self.client.post(url, data, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(GameSession.objects.count(), 1)
+        self.assertEqual(Leaderboard.objects.get(user=self.user).total_score, 150)
+
+    def test_get_top_scores(self):
+        # Create multiple scores
+        u2 = User.objects.create(username="player2")
+        Leaderboard.objects.create(user=self.user, total_score=100)
+        Leaderboard.objects.create(user=u2, total_score=200)
+
+        url = reverse('top-scores')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # Verify ordering (player2 should be first)
+        self.assertEqual(response.data[0]['username'], 'player2')
+
+    def test_get_player_rank(self):
+        u2 = User.objects.create(username="player2")
+        Leaderboard.objects.create(user=self.user, total_score=100)
+        Leaderboard.objects.create(user=u2, total_score=200)
+
+        url = reverse('player-rank', args=[self.user.id])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['rank'], 2)  # Should be 2nd
