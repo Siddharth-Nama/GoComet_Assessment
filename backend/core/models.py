@@ -15,3 +15,11 @@ class GameSession(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.score}"
+
+class Leaderboard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_score = models.IntegerField(default=0)
+    rank = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - Rank: {self.rank}"
