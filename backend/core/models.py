@@ -9,16 +9,16 @@ class User(models.Model):
 
 class GameSession(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    score = models.IntegerField()
+    score = models.IntegerField(db_index=True)
     game_mode = models.CharField(max_length=50)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.score}"
 
 class Leaderboard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    total_score = models.IntegerField(default=0)
+    total_score = models.IntegerField(default=0, db_index=True)
     rank = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
