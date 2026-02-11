@@ -1,6 +1,5 @@
-from django.urls import path
-from . import views
+from .views import SubmitScoreView
 
 urlpatterns = [
-    # Paths will be added here
+    path('submit', SubmitScoreView.as_view(), name='submit-score'),
 ]
