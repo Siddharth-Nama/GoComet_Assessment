@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { getTopScores } from '../services/api';
 import { Trophy, RefreshCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import usePolling from '../hooks/usePolling';
 
 const Leaderboard = () => {
     const [scores, setScores] = useState([]);
@@ -22,9 +22,9 @@ const Leaderboard = () => {
 
     useEffect(() => {
         fetchScores();
-        const interval = setInterval(fetchScores, 5000); // Poll every 5 seconds
-        return () => clearInterval(interval);
     }, []);
+
+    usePolling(fetchScores, 5000);
 
     return (
         <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-xl border border-white/20">
