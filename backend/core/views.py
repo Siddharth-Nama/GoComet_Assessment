@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import User, GameSession, Leaderboard
 from .serializers import SubmitScoreSerializer, LeaderboardSerializer
 from django.db import transaction
+from django.db.models import F
 
 class SubmitScoreView(APIView):
     def post(self, request):
@@ -17,13 +18,30 @@ class SubmitScoreView(APIView):
             except User.DoesNotExist:
                 return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            # Create GameSession
-            GameSession.objects.create(user=user, score=score, game_mode='solo')
+            try:
+                with transaction.atomic():
+                    # Create GameSession
+                    GameSession.objects.create(user=user, score=score, game_mode='solo')
 
-            # Update Leaderboard
-            leaderboard, created = Leaderboard.objects.get_or_create(user=user)
-            leaderboard.total_score += score
-            leaderboard.save()
+                    # Update Leaderboard with locking to prevent race conditions
+                    # Use select_for_update() to lock the row if it exists
+                    # Note: select_for_update() requires a transaction
+                    
+                    # We use a try-except block or get_or_create. 
+                    # For simple atomic increments, F() is good, but if we need to create, we need care.
+                    
+                    leaderboard, created = Leaderboard.objects.select_for_update().get_or_create(
+                        user=user, 
+                        defaults={'total_score': 0} # Initialize with 0, then add score
+                    )
+                    
+                    # If we just created it, total_score is 0.
+                    # We adhere to the atomic update:
+                    leaderboard.total_score = F('total_score') + score
+                    leaderboard.save()
+                    
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
             return Response({'message': 'Score submitted successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
