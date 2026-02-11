@@ -5,6 +5,7 @@ from .models import User, GameSession, Leaderboard
 from .serializers import SubmitScoreSerializer, LeaderboardSerializer
 from django.db import transaction
 from django.db.models import F
+from django.core.cache import cache
 
 class SubmitScoreView(APIView):
     def post(self, request):
@@ -23,22 +24,21 @@ class SubmitScoreView(APIView):
                     # Create GameSession
                     GameSession.objects.create(user=user, score=score, game_mode='solo')
 
-                    # Update Leaderboard with locking to prevent race conditions
-                    # Use select_for_update() to lock the row if it exists
-                    # Note: select_for_update() requires a transaction
-                    
-                    # We use a try-except block or get_or_create. 
-                    # For simple atomic increments, F() is good, but if we need to create, we need care.
-                    
+                    # Update Leaderboard with locking
                     leaderboard, created = Leaderboard.objects.select_for_update().get_or_create(
                         user=user, 
-                        defaults={'total_score': 0} # Initialize with 0, then add score
+                        defaults={'total_score': 0}
                     )
                     
-                    # If we just created it, total_score is 0.
-                    # We adhere to the atomic update:
-                    leaderboard.total_score = F('total_score') + score
-                    leaderboard.save()
+                    if not created:
+                        leaderboard.total_score = F('total_score') + score
+                        leaderboard.save()
+                    else:
+                        leaderboard.total_score = score
+                        leaderboard.save()
+                
+                # Invalidate cache for top scores
+                cache.delete('top_scores')
                     
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -48,12 +48,22 @@ class SubmitScoreView(APIView):
 
 class TopScoresView(APIView):
     def get(self, request):
-        top_scores = Leaderboard.objects.select_related('user').order_by('-total_score')[:10]
-        serializer = LeaderboardSerializer(top_scores, many=True)
-        return Response(serializer.data)
+        # Check cache first
+        top_scores_data = cache.get('top_scores')
+        
+        if top_scores_data is None:
+            top_scores = Leaderboard.objects.select_related('user').order_by('-total_score')[:10]
+            serializer = LeaderboardSerializer(top_scores, many=True)
+            top_scores_data = serializer.data
+            # Cache for 60 seconds (or until invalidated by new score)
+            cache.set('top_scores', top_scores_data, timeout=60)
+            
+        return Response(top_scores_data)
 
 class PlayerRankView(APIView):
     def get(self, request, user_id):
+        # We could cache individual ranks too, but they change often.
+        # For now, we calculate dynamically.
         try:
             leaderboard = Leaderboard.objects.get(user_id=user_id)
         except Leaderboard.DoesNotExist:
