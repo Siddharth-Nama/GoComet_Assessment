@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from .models import User, GameSession, Leaderboard
+from core.models import User, GameSession, Leaderboard
 from django.db.utils import IntegrityError
 from rest_framework import status
 
