@@ -9,14 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
 class GameSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameSession
-        fields = ['user', 'score', 'game_mode', 'timestamp']
+        fields = ['user_id', 'score', 'game_mode', 'timestamp']
 
 class LeaderboardSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
         model = Leaderboard
-        fields = ['user', 'username', 'total_score', 'rank']
+        fields = ['user_id', 'username', 'total_score', 'rank']
 
 class SubmitScoreSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
