@@ -15,33 +15,40 @@ class SubmitScoreView(APIView):
             score = serializer.validated_data['score']
 
             try:
-                user = User.objects.get(id=user_id)
-            except User.DoesNotExist:
-                return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-
-            try:
                 with transaction.atomic():
+                    # Check if user exists
+                    user = User.objects.get(id=user_id)
                     
+                    # Create Game Session (Audit Log)
                     GameSession.objects.create(user=user, score=score, game_mode='solo')
 
+                    # Update Leaderboard with concurrency lock
+                    # We utilize select_for_update() to lock the row for this transaction
                     leaderboard, created = Leaderboard.objects.select_for_update().get_or_create(
-                        user=user, 
+                        user=user,
                         defaults={'total_score': 0}
                     )
                     
-                    if not created:
-                        leaderboard.total_score = F('total_score') + score
-                        leaderboard.save()
-                    else:
-                        leaderboard.total_score = score
-                        leaderboard.save()
-                
-                cache.delete('top_scores')
+                    # Update score
+                    leaderboard.total_score = F('total_score') + score
+                    leaderboard.save()
                     
+                    # Refresh from DB to get the updated value (since F() returns an expression)
+                    leaderboard.refresh_from_db()
+                
+                # Invalidate Cache
+                cache.delete('top_scores')
+                
+                return Response({
+                    'message': 'Score submitted successfully',
+                    'current_total': leaderboard.total_score
+                }, status=status.HTTP_201_CREATED)
+                    
+            except User.DoesNotExist:
+                return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
             except Exception as e:
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            return Response({'message': 'Score submitted successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TopScoresView(APIView):

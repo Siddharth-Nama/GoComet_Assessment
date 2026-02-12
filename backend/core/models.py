@@ -11,7 +11,7 @@ class User(models.Model):
         db_table = "users"
 
 class GameSession(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.IntegerField(db_index=True)
     game_mode = models.CharField(max_length=50)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -23,7 +23,7 @@ class GameSession(models.Model):
         db_table = "game_sessions"
 
 class Leaderboard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     total_score = models.IntegerField(default=0, db_index=True)
     rank = models.IntegerField(null=True, blank=True)
 
@@ -32,3 +32,6 @@ class Leaderboard(models.Model):
 
     class Meta:
         db_table = "leaderboard"
+        indexes = [
+            models.Index(fields=['-total_score']),
+        ]
