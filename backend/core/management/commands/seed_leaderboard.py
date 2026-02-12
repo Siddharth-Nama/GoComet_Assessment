@@ -10,7 +10,6 @@ class Command(BaseCommand):
         Leaderboard.objects.all().delete()
 
         self.stdout.write('Aggregating scores...')
-        # Aggregate total score for each user
         user_scores = GameSession.objects.values('user').annotate(total_score=Sum('score'))
         
         self.stdout.write(f'Found {len(user_scores)} users with scores. Populating leaderboard...')

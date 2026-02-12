@@ -13,7 +13,6 @@ class Command(BaseCommand):
         total = kwargs['total']
         self.stdout.write(f'Creating {total} game sessions...')
         
-        # Get all user IDs to assign sessions to actual users
         user_ids = list(User.objects.values_list('id', flat=True))
         if not user_ids:
             self.stdout.write(self.style.ERROR('No users found. Please run seed_users first.'))

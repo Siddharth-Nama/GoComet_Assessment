@@ -41,7 +41,6 @@ class ViewTests(TestCase):
         self.assertEqual(Leaderboard.objects.get(user=self.user).total_score, 150)
 
     def test_get_top_scores(self):
-        # Create multiple scores
         u2 = User.objects.create(username="player2")
         Leaderboard.objects.create(user=self.user, total_score=100)
         Leaderboard.objects.create(user=u2, total_score=200)
@@ -49,7 +48,6 @@ class ViewTests(TestCase):
         url = reverse('top-scores')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # Verify ordering (player2 should be first)
         self.assertEqual(response.data[0]['username'], 'player2')
 
     def test_get_player_rank(self):

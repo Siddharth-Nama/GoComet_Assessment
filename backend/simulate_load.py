@@ -5,7 +5,6 @@ import threading
 
 API_BASE_URL = "http://localhost:8000/api/leaderboard"
 
-# Simulate score submission
 def submit_score(user_id):
     try:
         score = random.randint(100, 10000)
@@ -20,7 +19,6 @@ def submit_score(user_id):
     except Exception as e:
         print(f"Error submitting: {e}")
 
-# Fetch top players
 def get_top_players():
     try:
         response = requests.get(f"{API_BASE_URL}/top")
@@ -30,7 +28,6 @@ def get_top_players():
         print(f"Error getting top: {e}")
         return []
 
-# Fetch user rank
 def get_user_rank(user_id):
     try:
         response = requests.get(f"{API_BASE_URL}/rank/{user_id}")
@@ -66,5 +63,4 @@ def run_simulation():
     print("Simulation complete.")
 
 if __name__ == "__main__":
-    # Ensure requests is installed
     run_simulation()
