@@ -96,14 +96,22 @@ WSGI_APPLICATION = 'leaderboard_project.wsgi.application'
 #     }
 # }
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# ... (rest of imports)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'leaderboard_db',
-        'USER': 'postgres',
-        'PASSWORD': 'password',  # Change this to your password
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'postgres'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
+        
     }
 }
 

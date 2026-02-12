@@ -2,10 +2,13 @@ from django.db import models
 
 class User(models.Model):
     username = models.CharField(max_length=255, unique=True)
-    join_date = models.DateTimeField(auto_now_add=True)
+    join_date = models.DateTimeField(auto_now_add=True, null=True) # null = true because to run the SQL Queries provided in the assignment
 
     def __str__(self):
         return self.username
+
+    class Meta:
+        db_table = "users"
 
 class GameSession(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -16,6 +19,9 @@ class GameSession(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.score}"
 
+    class Meta:
+        db_table = "game_sessions"
+
 class Leaderboard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_score = models.IntegerField(default=0, db_index=True)
@@ -23,3 +29,6 @@ class Leaderboard(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - Rank: {self.rank}"
+
+    class Meta:
+        db_table = "leaderboard"
