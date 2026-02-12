@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #050505; /* Deep black */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,8 +20,21 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top right, #4338ca, #1e1b4b), 
-              radial-gradient(circle at bottom left, #be185d, #4c0519);
-  background-attachment: fixed;
-  background-size: cover;
+  background: #000;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Styling for Webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb {
+  background: #330000; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #660000; 
 }
