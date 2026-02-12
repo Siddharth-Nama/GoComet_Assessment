@@ -22,12 +22,6 @@ body {
   min-height: 100vh;
   background: transparent;
   overflow-x: hidden;
-  /* Mario Ground Pattern */
-  background-image: 
-    url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Mario_Series_Logo.svg/1200px-Mario_Series_Logo.svg.png'); /* Placeholder for now, user requested images */
-  background-repeat: no-repeat;
-  background-position: center 10%;
-  background-size: 200px;
 }
 
 /* NES Style Scrollbar */
@@ -43,4 +37,45 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #ff4d4d; 
+}
+
+/* Authentic Mario Block Styles */
+.mario-brick {
+  background-color: #b85c38;
+  background-image: 
+    linear-gradient(45deg, rgba(0,0,0,0.25) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0.25)), 
+    linear-gradient(45deg, rgba(0,0,0,0.25) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0.25));
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  border: 4px solid #000;
+  box-shadow: inset 4px 4px 0px rgba(255,255,255,0.2), inset -4px -4px 0px rgba(0,0,0,0.2);
+}
+
+.mario-pipe {
+  background: linear-gradient(90deg, #00a800 10%, #80d010 30%, #00a800 60%, #005000 90%);
+  border: 4px solid #000;
+  box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+  position: relative;
+}
+.mario-pipe::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: -8px;
+  right: -8px;
+  height: 24px;
+  background: linear-gradient(90deg, #00a800 10%, #80d010 30%, #00a800 60%, #005000 90%);
+  border: 4px solid #000;
+}
+
+.mario-cloud {
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+}
+
+.mario-ground {
+  background-image: repeating-linear-gradient(45deg, #c84c0c 25%, transparent 25%, transparent 75%, #c84c0c 75%, #c84c0c), repeating-linear-gradient(45deg, #c84c0c 25%, #fff 25%, #fff 75%, #c84c0c 75%, #c84c0c);
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
 }
