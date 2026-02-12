@@ -68,7 +68,7 @@ const Leaderboard = () => {
                                     `}>
                                         {index + 1}
                                     </div>
-                                    <div className="text-white font-bold uppercase text-xs md:text-sm tracking-wide">{entry.username} (User ID: {entry.user})</div>
+                                    <div className="text-white font-bold uppercase text-xs md:text-sm tracking-wide">{entry.username} (User ID: {entry.user_id})</div>
                                 </div>
                                 <div className="text-yellow-400 font-bold font-mono tracking-widest text-shadow-sm">
                                     {entry.total_score.toLocaleString()}
