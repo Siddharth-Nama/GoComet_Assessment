@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api/leaderboard';
+// const API_BASE_URL = 'http://localhost:8000/api/leaderboard';
+const API_BASE_URL = 'https://gocomet-assessment.onrender.com/api/leaderboard';
 
 const api = axios.create({
     baseURL: API_BASE_URL,

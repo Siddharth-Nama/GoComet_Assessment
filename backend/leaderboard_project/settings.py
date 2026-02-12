@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o@eewv08j_+!jr%r#s=k3@pu#0pz8jwl(!k9-z*o@qqa3k6m5l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gocomet-assessment.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -57,11 +57,13 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://go-comet-assessment.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://go-comet-assessment.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
