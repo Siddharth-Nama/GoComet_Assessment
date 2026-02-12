@@ -26,12 +26,13 @@ with transaction.atomic():
 
 ## 📈 New Relic Monitoring
 
-*(Place your New Relic Dashboard Screenshots here)*
+## 📈 New Relic Monitoring
 
 ### Throughput
-*   **Requests Per Minute (RPM)**: [Insert Data]
-*   **Average Response Time**:
-    ![Latency Graph](screenshots/newrelic_latency.png)
+![Throughput Graph](screenshots/newrelic_throughput.png)
+
+### Average Response Time
+![Latency Graph](screenshots/newrelic_latency.png)
 
 ### Database Performance
 *   **Slowest Query**: `SELECT * FROM leaderboard ORDER BY total_score DESC`
