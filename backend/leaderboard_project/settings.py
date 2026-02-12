@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o@eewv08j_+!jr%r#s=k3@pu#0pz8jwl(!k9-z*o@qqa3k6m5l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['gocomet-assessment.onrender.com', 'localhost', '127.0.0.1']
 
