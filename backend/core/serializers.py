@@ -12,7 +12,7 @@ class GameSessionSerializer(serializers.ModelSerializer):
         fields = ['user_id', 'score', 'game_mode', 'timestamp']
 
 class LeaderboardSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
+    username = serializers.CharField(source='user_id.username', read_only=True)
 
     class Meta:
         model = Leaderboard
