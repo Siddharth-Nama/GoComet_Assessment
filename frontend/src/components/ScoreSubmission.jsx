@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { submitScore } from '../services/api';
-import { RotateCcw, Send } from 'lucide-react';
+import { Send, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ScoreSubmission = () => {
     const [userId, setUserId] = useState('');
     const [score, setScore] = useState('');
-    const [status, setStatus] = useState(null); // success, error
+    const [status, setStatus] = useState(null);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -20,52 +20,51 @@ const ScoreSubmission = () => {
         try {
             await submitScore(userId, parseInt(score));
             setStatus('success');
-            setMessage('Score submitted successfully!');
-            setScore(''); // Reset score, keep user ID for multiple submissions
+            setMessage('1UP!');
+            setScore(''); 
         } catch (err) {
             setStatus('error');
-            setMessage('Failed to submit score.');
+            setMessage('GAME OVER');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="bg-gradient-to-br from-red-900/50 to-black/50 backdrop-blur-md rounded-xl p-6 shadow-xl border border-red-500/30 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-red-500/5 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none" />
+        <div className="bg-[#ffcccc] border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
             
-            <h2 className="text-xl font-bold text-red-50 mb-4 flex items-center gap-2">
-                <Send className="text-red-500" /> Submit Score
+            <h2 className="text-sm font-bold text-red-600 mb-4 flex items-center gap-2 uppercase">
+                <Star className="text-yellow-500 fill-yellow-500 animate-spin-slow" strokeWidth={3} size={20} /> Submit Score
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-red-200/70 text-xs uppercase mb-1 font-mono">User ID</label>
+                    <label className="block text-black text-[10px] uppercase mb-1 font-bold">Player ID</label>
                     <input
                         type="number"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
-                        placeholder="e.g. 1"
-                        className="w-full bg-black/40 border border-red-500/20 rounded-lg px-4 py-2 text-white placeholder-red-900/50 focus:outline-none focus:border-red-500 transition-colors font-mono"
+                        placeholder="1"
+                        className="w-full bg-white border-2 border-black p-2 text-black placeholder-gray-400 focus:outline-none focus:bg-yellow-50 font-mono text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     />
                 </div>
                 <div>
-                    <label className="block text-red-200/70 text-xs uppercase mb-1 font-mono">Score</label>
+                    <label className="block text-black text-[10px] uppercase mb-1 font-bold">Score</label>
                     <input
                         type="number"
                         value={score}
                         onChange={(e) => setScore(e.target.value)}
-                        placeholder="e.g. 5000"
-                        className="w-full bg-black/40 border border-red-500/20 rounded-lg px-4 py-2 text-white placeholder-red-900/50 focus:outline-none focus:border-red-500 transition-colors font-mono"
+                        placeholder="000000"
+                        className="w-full bg-white border-2 border-black p-2 text-black placeholder-gray-400 focus:outline-none focus:bg-yellow-50 font-mono text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     />
                 </div>
 
                 <button 
                     type="submit" 
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-red-600 to-red-800 hover:from-red-500 hover:to-red-700 text-white py-2 rounded-lg font-bold uppercase tracking-wider transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(220,38,38,0.5)]"
+                    className="w-full bg-red-500 hover:bg-red-600 text-white py-3 font-bold uppercase text-xs tracking-wider border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {loading ? 'Submitting...' : 'Submit Score'}
+                    {loading ? 'Submitting...' : 'PRESS START'}
                 </button>
             </form>
 
@@ -75,7 +74,7 @@ const ScoreSubmission = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
-                        className={`mt-4 p-3 rounded-lg text-sm text-center font-bold ${status === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}
+                        className={`mt-4 p-2 border-2 border-black text-xs text-center font-bold uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${status === 'success' ? 'bg-green-400 text-black' : 'bg-black text-red-500'}`}
                     >
                         {message}
                     </motion.div>
