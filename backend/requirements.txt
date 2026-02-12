@@ -8,3 +8,4 @@ newrelic
 redis
 python-dotenv
 dj-database-url
+newrelic
