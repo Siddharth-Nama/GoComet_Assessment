@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getTopScores } from '../services/api';
 import { Trophy, RefreshCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

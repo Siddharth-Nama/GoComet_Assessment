@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getPlayerRank } from '../services/api';
 import { Search, Medal } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const UserRankLookup = () => {
     const [userId, setUserId] = useState('');
