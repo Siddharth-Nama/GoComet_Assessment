@@ -57,7 +57,7 @@ class TopScoresView(APIView):
         top_scores_data = cache.get('top_scores')
         
         if top_scores_data is None:
-            top_scores = Leaderboard.objects.select_related('user').order_by('-total_score')[:10]
+            top_scores = Leaderboard.objects.all().order_by('-total_score')[:10]
             serializer = LeaderboardSerializer(top_scores, many=True)
             top_scores_data = serializer.data
             cache.set('top_scores', top_scores_data, timeout=60)
