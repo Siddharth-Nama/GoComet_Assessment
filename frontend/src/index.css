@@ -2,14 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Press Start 2P', system-ui, cursive;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #050505; /* Deep black */
+  color-scheme: light;
+  color: #000;
+  background-color: #5c94fc; /* Mario Sky Blue */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,21 +22,28 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #000;
+  background: transparent;
   overflow-x: hidden;
 }
 
-/* Scrollbar Styling for Webkit */
+/* NES Style Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
   background: #000; 
 }
 ::-webkit-scrollbar-thumb {
-  background: #330000; 
-  border-radius: 4px;
+  background: #e70000; 
+  border: 2px solid #fff;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #660000; 
+  background: #ff4d4d; 
+}
+
+.nes-box {
+  @apply bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
+}
+.nes-btn {
+  @apply uppercase tracking-wider transition-transform active:translate-y-1 active:shadow-none;
 }

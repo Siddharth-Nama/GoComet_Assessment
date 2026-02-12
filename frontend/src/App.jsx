@@ -3,39 +3,33 @@ import Leaderboard from './components/Leaderboard';
 import UserRankLookup from './components/UserRankLookup';
 import ScoreSubmission from './components/ScoreSubmission';
 import Background3D from './components/Background3D';
-import { Gamepad2, Skull } from 'lucide-react';
+import { Gamepad2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function App() {
   return (
-    <div className="min-h-screen text-gray-100 font-sans selection:bg-red-500 selection:text-white">
+    <div className="min-h-screen text-black font-sans selection:bg-yellow-400 selection:text-black">
       <Background3D />
       
       <div className="relative z-10 px-4 py-8 md:px-8">
         <motion.header 
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="max-w-7xl mx-auto mb-12 flex items-center justify-between border-b border-red-900/30 pb-6"
+          className="max-w-7xl mx-auto mb-12 flex flex-col items-center justify-center text-center bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-sm"
         >
-          <div className="flex items-center gap-4">
-            <div className="bg-red-900/20 p-3 rounded-xl backdrop-blur border border-red-500/30 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-              <Gamepad2 size={32} />
+          <div className="flex items-center gap-4 mb-2">
+            <div className="text-red-600 animate-bounce">
+              <Gamepad2 size={48} />
             </div>
-            <div>
-              <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 tracking-tighter uppercase italic">
-                Iron Leage
-              </h1>
-              <p className="text-red-200/50 text-xs font-mono tracking-widest uppercase">Global Competitive Ladder</p>
-            </div>
+            <h1 className="text-3xl md:text-5xl font-black text-red-600 uppercase tracking-tighter" style={{ textShadow: '4px 4px 0px #000' }}>
+              Super Leaderboard
+            </h1>
           </div>
-          <div className="hidden md:flex items-center gap-2 text-red-500/50">
-             <Skull size={20} />
-             <span className="font-mono text-xs">Kill or be Killed</span>
-          </div>
+          <p className="text-black text-xs md:text-sm font-bold tracking-widest uppercase bg-yellow-400 px-4 py-1 border-2 border-black">World 1-1</p>
         </motion.header>
 
         <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column: Leaderboard (Takes up more space) */}
+          {/* Left Column: Leaderboard */}
           <div className="lg:col-span-8 space-y-8">
              <Leaderboard />
           </div>
@@ -49,12 +43,12 @@ function App() {
                initial={{ opacity: 0, x: 20 }}
                animate={{ opacity: 1, x: 0 }}
                transition={{ delay: 0.2 }}
-               className="bg-black/40 backdrop-blur-md rounded-xl p-6 border border-red-900/30 text-center"
+               className="bg-black/80 backdrop-blur-md rounded-sm p-6 border-4 border-white text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]"
             >
-               <h3 className="text-red-500 font-mono text-xs uppercase mb-2">System Status</h3>
+               <h3 className="text-green-400 font-bold text-xs uppercase mb-2">System Status</h3>
                <div className="flex justify-center items-center gap-2">
-                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]"></div>
-                 <span className="text-gray-400 text-sm">Server Online</span>
+                 <div className="w-3 h-3 bg-green-500 rounded-none animate-pulse border border-white"></div>
+                 <span className="text-white text-xs">ONLINE</span>
                </div>
             </motion.div>
           </div>
