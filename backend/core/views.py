@@ -20,12 +20,12 @@ class SubmitScoreView(APIView):
                     user = User.objects.get(id=user_id)
                     
                     # Create Game Session (Audit Log)
-                    GameSession.objects.create(user=user, score=score, game_mode='solo')
+                    GameSession.objects.create(user_id=user_id, score=score, game_mode='solo')
 
                     # Update Leaderboard with concurrency lock
                     # We utilize select_for_update() to lock the row for this transaction
                     leaderboard, created = Leaderboard.objects.select_for_update().get_or_create(
-                        user=user,
+                        user_id=user_id,
                         defaults={'total_score': 0}
                     )
                     

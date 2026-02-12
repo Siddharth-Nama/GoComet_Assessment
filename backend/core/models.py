@@ -17,7 +17,7 @@ class GameSession(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.score}"
+        return f"{self.user_id.username} - {self.score}"
 
     class Meta:
         db_table = "game_sessions"
@@ -28,7 +28,7 @@ class Leaderboard(models.Model):
     rank = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} - Rank: {self.rank}"
+        return f"{self.user_id.username} - Rank: {self.rank}"
 
     class Meta:
         db_table = "leaderboard"
