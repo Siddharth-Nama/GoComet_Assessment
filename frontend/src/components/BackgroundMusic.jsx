@@ -10,7 +10,7 @@ const BackgroundMusic = () => {
         const playAudio = async () => {
             try {
                 if (audioRef.current) {
-                    audioRef.current.volume = 0.3; // Lower volume
+                    audioRef.current.volume = 0.5; // Lower volume
                     await audioRef.current.play();
                     setIsPlaying(true);
                 }
@@ -40,7 +40,7 @@ const BackgroundMusic = () => {
             >
                 {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
             </button>
-            <audio ref={audioRef} loop src="https://ia800504.us.archive.org/33/items/SuperMarioBros.ThemeMusic/SuperMarioBros.mp3" />
+            <audio ref={audioRef} loop src="/assets/audio/theme song.mp3" />
         </div>
     );
 };

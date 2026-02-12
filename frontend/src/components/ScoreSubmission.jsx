@@ -21,10 +21,11 @@ const ScoreSubmission = () => {
             await submitScore(userId, parseInt(score));
             setStatus('success');
             setMessage('1UP!');
-            setScore(''); 
+            setTimeout(() => setStatus(null), 2000);
         } catch (err) {
             setStatus('error');
             setMessage('GAME OVER');
+            setTimeout(() => setStatus(null), 2000);
         } finally {
             setLoading(false);
         }
@@ -70,10 +71,10 @@ const ScoreSubmission = () => {
             <AnimatePresence>
                 {status && (
                     <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.5, y: 0 }}
+                        animate={{ opacity: 1, scale: 1, y: -20 }}
                         exit={{ opacity: 0 }}
-                        className={`mt-4 p-2 border-4 border-black text-xs text-center font-bold uppercase shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative z-10 ${status === 'success' ? 'bg-yellow-400 text-black' : 'bg-black text-white'}`}
+                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none text-2xl font-black italic tracking-tighter drop-shadow-[2px_2px_0_#000] ${status === 'success' ? 'text-green-400' : 'text-red-500'}`}
                     >
                         {message}
                     </motion.div>

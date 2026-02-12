@@ -2,23 +2,41 @@ import { useState } from 'react';
 import Leaderboard from './components/Leaderboard';
 import UserRankLookup from './components/UserRankLookup';
 import ScoreSubmission from './components/ScoreSubmission';
-import Background3D from './components/Background3D';
-import { Gamepad2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-
+import WelcomeScreen from './components/WelcomeScreen';
 import BackgroundMusic from './components/BackgroundMusic';
+import { Gamepad2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
+  const [gameStarted, setGameStarted] = useState(false);
+
   return (
-    <div className="min-h-screen text-black font-sans selection:bg-yellow-400 selection:text-black">
-      <BackgroundMusic />
-      <Background3D />
+    <div className="min-h-screen text-black font-sans selection:bg-yellow-400 selection:text-black overflow-hidden relative">
+      <AnimatePresence>
+        {!gameStarted && <WelcomeScreen onStart={() => setGameStarted(true)} />}
+      </AnimatePresence>
+
+      {/* Main Background Video */}
+      <div className="fixed top-0 left-0 w-full h-full z-[-1] bg-black overflow-hidden">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-fill opacity-90"
+          >
+            <source src="/assets/videos/video.mp4" type="video/mp4" />
+          </video>
+      </div>
       
-      <div className="relative z-10 px-4 py-8 md:px-8">
+      {/* Background Music - Only plays after start */}
+      {gameStarted && <BackgroundMusic />}
+      
+      <div className={`relative z-10 px-4 py-8 md:px-8 transition-opacity duration-1000 ${gameStarted ? 'opacity-100' : 'opacity-0'}`}>
         <motion.header 
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="max-w-7xl mx-auto mb-12 flex flex-col items-center justify-center text-center bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-sm"
+          className="max-w-7xl mx-auto mb-12 flex flex-col items-center justify-center text-center bg-white/90 backdrop-blur-sm border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-sm"
         >
           <div className="flex items-center gap-4 mb-2">
             <div className="text-red-600 animate-bounce">
@@ -62,3 +80,4 @@ function App() {
 }
 
 export default App;
+
