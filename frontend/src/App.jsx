@@ -6,9 +6,12 @@ import Background3D from './components/Background3D';
 import { Gamepad2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import BackgroundMusic from './components/BackgroundMusic';
+
 function App() {
   return (
     <div className="min-h-screen text-black font-sans selection:bg-yellow-400 selection:text-black">
+      <BackgroundMusic />
       <Background3D />
       
       <div className="relative z-10 px-4 py-8 md:px-8">
