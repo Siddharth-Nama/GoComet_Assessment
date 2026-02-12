@@ -16,8 +16,7 @@ function App() {
         {!gameStarted && <WelcomeScreen onStart={() => setGameStarted(true)} />}
       </AnimatePresence>
 
-      {/* Main Background Video */}
-      <div className="fixed top-0 left-0 w-full h-full z-[-1] bg-black overflow-hidden">
+      <div className="fixed inset-0 z-[-1] bg-black overflow-hidden w-screen h-screen">
           <video 
             autoPlay 
             loop 

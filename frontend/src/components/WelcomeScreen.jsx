@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const WelcomeScreen = ({ onStart }) => {
     return (
         <motion.div 
-            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-4 overflow-hidden w-full h-[100dvh]"
+            className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center overflow-hidden w-screen h-screen"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 1 } }}
         >
