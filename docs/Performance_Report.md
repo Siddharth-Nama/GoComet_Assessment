@@ -30,7 +30,8 @@ with transaction.atomic():
 
 ### Throughput
 *   **Requests Per Minute (RPM)**: [Insert Data]
-*   **Average Response Time**: [Insert Data]
+*   **Average Response Time**:
+    ![Latency Graph](screenshots/newrelic_latency.png)
 
 ### Database Performance
 *   **Slowest Query**: `SELECT * FROM leaderboard ORDER BY total_score DESC`
